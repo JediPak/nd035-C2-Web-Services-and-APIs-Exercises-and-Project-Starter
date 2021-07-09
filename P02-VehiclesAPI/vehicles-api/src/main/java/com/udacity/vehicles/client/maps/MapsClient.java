@@ -51,4 +51,12 @@ public class MapsClient {
             return location;
         }
     }
+
+//    @Override
+//    public String toString() {
+//        return "MapsClient{" +
+//                "client=" + client +
+//                ", mapper=" + mapper +
+//                '}';
+//    }
 }

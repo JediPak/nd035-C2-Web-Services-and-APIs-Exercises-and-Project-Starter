@@ -11,9 +11,11 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+import javax.ws.rs.Produces;
 
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +45,8 @@ class CarController {
      * Creates a list to store any vehicles.
      * @return list of vehicles
      */
-    @GetMapping
+//    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     Resources<Resource<Car>> list() {
         List<Resource<Car>> resources = carService.list().stream().map(assembler::toResource)
                 .collect(Collectors.toList());
@@ -51,12 +54,29 @@ class CarController {
                 linkTo(methodOn(CarController.class).list()).withSelfRel());
     }
 
+//    https://knowledge.udacity.com/questions/286730
+//    @ApiOperation(value = "Returns Car details associated with the id")
+//    @ApiResponses(value = {@ApiResponse(code = 200,message = "Succesfully retrieved car associated with id")})
+//    @GetMapping("/{id}")
+//    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//    Resource<Car> get(@PathVariable Long id) {
+//
+//        return assembler.toResource(car);
+//    }
+
+
+
     /**
      * Gets information of a specific car by ID.
      * @param id the id number of the given vehicle
      * @return all information for the requested vehicle
      */
     @GetMapping("/{id}")
+//    @Produce({"MediaType.APPLICATION_JSON", "MediaType.APPLICATION_XML"})
+    @Produces("application/json")
+//    @ApiOperation(value = "Returns Car details associated with the id")
+//    @ApiResponses(value = {@ApiResponse(code = 200,message = "Succesfully retrieved car associated with id")})
+//    Resource<Car> get(@PathVariable Long id) {
     Resource<Car> get(@PathVariable Long id) {
         /**
          * TODO: Use the `findById` method from the Car Service to get car information.

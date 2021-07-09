@@ -5,7 +5,9 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.5.RELEASE</version>
+<!--		<version>2.1.5.RELEASE</version>-->
+<!--		<version>2.5.2</version>-->
+		<version>2.4.5</version>
 		<relativePath/> <!-- lookup parent from com.udacity.pricing.repository -->
 	</parent>
 	<groupId>com.udacity</groupId>
@@ -16,6 +18,7 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<spring-cloud.version>2020.0.3</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -25,6 +28,9 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
+		<!--This starter pack is used for web application development
+		and automatically adds libraries
+		like Spring MVC, REST, Tomcat, and Jackson.-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -42,8 +48,64 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
 
+		<!--This starter pack includes JDBC, Hibernate, Transactions API, JPA, and Aspects.-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!--open source DB written in java,
+		in-memory (meaning the data is stored in memory and not persisted to disk)
+		great for development environment and smaller projects, not for production
+		can easily integrate with spring
+		provides useful admin tool called the console-->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!--Microservice dependency-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>javax.xml.bind</groupId>-->
+<!--			<artifactId>jaxb-api</artifactId>-->
+<!--			<version>2.4.0-b180725.0427</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<dependencyManagement>
+	        <dependencies>
+	            <dependency>
+	                <groupId>org.springframework.cloud</groupId>
+	                <artifactId>spring-cloud-starter-parent</artifactId>
+<!--	                <version>Greenwich.RELEASE</version>-->
+					<version>${spring-cloud.version}</version>
+	                <type>pom</type>
+	                <scope>import</scope>
+	            </dependency>
+	        </dependencies>
+	    </dependencyManagement>
 	<build>
 		<plugins>
 			<plugin>
