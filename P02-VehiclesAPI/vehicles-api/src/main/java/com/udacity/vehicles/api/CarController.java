@@ -177,7 +177,15 @@ class CarController {
             throw new CarBadRequestException("Error: To create a new car, please leave the <Id> null");
         }
         Resource<Car> resource = assembler.toResource(carService.save(car));
-        System.out.println("CONTROLLER post(): "+ resource.toString());
+
+        //added for debugging
+        if(resource == null){
+            System.out.println("CONTROLLER post(): resource is null");
+        }
+        else{
+            System.out.println("CONTROLLER post(): "+ resource.toString());
+        }
+
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 

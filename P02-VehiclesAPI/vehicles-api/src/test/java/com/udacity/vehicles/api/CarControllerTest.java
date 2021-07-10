@@ -69,7 +69,7 @@ public class CarControllerTest {
     @MockBean
     private MapsClient mapsClient;
 
-    @MockBean
+//    @MockBean
     private CarResourceAssembler assembler;
 
 
