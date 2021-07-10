@@ -43,6 +43,7 @@ import org.springframework.http.HttpStatus;
 @ApiResponses(
         value={
                 @ApiResponse(code = 201, message = "OK, and as a result, a resource has been created"),
+                @ApiResponse(code = 204, message = "OK, and as a result, a resource has been deleted"),
                 @ApiResponse(code = 400, message = "Bad request, follow the API documents"),
                 @ApiResponse(code = 401, message = "Unauthorized"),
                 @ApiResponse(code = 404, message = "Car Not Found with given Id"),
@@ -68,8 +69,15 @@ class CarController {
     Resources<Resource<Car>> list() {
         List<Resource<Car>> resources = carService.list().stream().map(assembler::toResource)
                 .collect(Collectors.toList());
-        return new Resources<>(resources,
+
+        Resources<Resource<Car>> resourceResourcesCar = new Resources<>(resources,
                 linkTo(methodOn(CarController.class).list()).withSelfRel());
+
+        System.out.println("CONTROLLER list(): "+ resourceResourcesCar.toString());
+
+        return resourceResourcesCar;
+//        return new Resources<>(resources,
+//                linkTo(methodOn(CarController.class).list()).withSelfRel());
     }
 
 
@@ -146,7 +154,9 @@ class CarController {
          *   Update the first line as part of the above implementing.
          */
 //        return assembler.toResource(new Car());
-        return assembler.toResource(carService.findById(id));
+        Resource<Car> carResource = assembler.toResource(carService.findById(id));
+        System.out.println("CONTROLLER get(): "+ carResource.toString());
+        return carResource;//assembler.toResource(carService.findById(id));
     }
 
     /**
@@ -167,6 +177,7 @@ class CarController {
             throw new CarBadRequestException("Error: To create a new car, please leave the <Id> null");
         }
         Resource<Car> resource = assembler.toResource(carService.save(car));
+        System.out.println("CONTROLLER post(): "+ resource.toString());
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 

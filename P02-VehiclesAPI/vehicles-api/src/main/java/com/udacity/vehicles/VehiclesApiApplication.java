@@ -1,5 +1,6 @@
 package com.udacity.vehicles;
 
+import com.udacity.vehicles.domain.car.Car;
 import com.udacity.vehicles.domain.manufacturer.Manufacturer;
 import com.udacity.vehicles.domain.manufacturer.ManufacturerRepository;
 import org.modelmapper.ModelMapper;
@@ -10,6 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
@@ -20,7 +23,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableEurekaClient
-public class VehiclesApiApplication {
+public class VehiclesApiApplication implements RepositoryRestConfigurer {
 
     private ManufacturerRepository manufacturerRepository;
 
@@ -28,6 +31,10 @@ public class VehiclesApiApplication {
         SpringApplication.run(VehiclesApiApplication.class, args);
     }
 
+    @Override
+    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config){//}, CorsRegistry cors) {
+        config.exposeIdsFor(Car.class);
+    }
     /**
      * Initializes the car manufacturers available to the Vehicle API.
      * @param repository where the manufacturer information persists.

@@ -43,6 +43,7 @@ import org.springframework.hateoas.Resources;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 /**
  * Implements testing of the CarController class.
@@ -91,16 +92,24 @@ public class CarControllerTest {
     @Test
     public void createCar() throws Exception {
         Car car = getCar();
+//        car.setId(null);
+//        mvc.perform(
+//                post(new URI("/cars"))
+//                        //.andDo(print())
+//                        .content(json.write(car).getJson())
+//                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+//                        .accept(MediaType.APPLICATION_JSON_UTF8))
+//                .andExpect(status().isCreated());
+//                //.andExpect(content().json(json.write(car).getJson()));
+////                .andExpect(jsonPath("_embedded.carList[0].condition", is(car.getCondition().name())));
+//        verify(carService, times(1)).save(car);
         mvc.perform(
                 post(new URI("/cars"))
-                        //.andDo(print())
                         .content(json.write(car).getJson())
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isCreated());
-                //.andExpect(content().json(json.write(car).getJson()));
-//                .andExpect(jsonPath("_embedded.carList[0].condition", is(car.getCondition().name())));
-        verify(carService, times(1)).save(car);
     }
 
     /**
@@ -124,6 +133,7 @@ public class CarControllerTest {
                 get(new URI("/cars"))
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"));
 //                .andExpect(jsonPath("$.condition").value("USED"))
