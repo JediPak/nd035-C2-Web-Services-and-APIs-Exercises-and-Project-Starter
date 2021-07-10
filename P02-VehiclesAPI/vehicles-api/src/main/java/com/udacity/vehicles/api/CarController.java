@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 //import javax.ws.rs.Produces;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.MediaType;
@@ -31,12 +33,22 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
 /**
  * Implements a REST-based controller for the Vehicles API.
  */
 @RestController
 @RequestMapping("/cars")
+@ApiResponses(
+        value={
+                @ApiResponse(code = 201, message = "OK, and as a result, a resource has been created"),
+                @ApiResponse(code = 400, message = "Bad request, follow the API documents"),
+                @ApiResponse(code = 401, message = "Unauthorized"),
+                @ApiResponse(code = 404, message = "Car Not Found with given Id"),
+                @ApiResponse(code = 500, message = "server is down :(")
+        }
+)
 class CarController {
 
     private final CarService carService;

@@ -23,8 +23,12 @@ The project requires the use of Maven and Spring Boot, along with Java v11.
 ### Price
 * http://localhost:8082/services/price?vehicleId=1 (REST API url example)
 * http://localhost:8082/services/price?vehicleId=3 (Microservice url example)
-
+* http://localhost:8082/h2 (price db)
 ### Vehicle
-*
+* http://localhost:8080/cars/all
+* http://localhost:8080/cars/1 (GET/DELETE/PUT)
+* http://localhost:8080/cars/ (POST)
+* http://localhost:8080/h2 (vehicle db)
 
-### Rubric
+### Swagger
+* http://localhost:8080/swagger-ui

@@ -4,6 +4,10 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,7 +24,11 @@ import com.udacity.vehicles.domain.car.Details;
 import com.udacity.vehicles.domain.manufacturer.Manufacturer;
 import com.udacity.vehicles.service.CarService;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +38,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -58,6 +68,10 @@ public class CarControllerTest {
     @MockBean
     private MapsClient mapsClient;
 
+    @MockBean
+    private CarResourceAssembler assembler;
+
+
     /**
      * Creates pre-requisites for testing, such as an example car.
      */
@@ -79,10 +93,14 @@ public class CarControllerTest {
         Car car = getCar();
         mvc.perform(
                 post(new URI("/cars"))
+                        //.andDo(print())
                         .content(json.write(car).getJson())
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isCreated());
+                //.andExpect(content().json(json.write(car).getJson()));
+//                .andExpect(jsonPath("_embedded.carList[0].condition", is(car.getCondition().name())));
+        verify(carService, times(1)).save(car);
     }
 
     /**
@@ -96,6 +114,20 @@ public class CarControllerTest {
          *   the whole list of vehicles. This should utilize the car from `getCar()`
          *   below (the vehicle will be the first in the list).
          */
+        Car car = getCar();
+        List <Resource<Car>> resources = carService.list().stream().map(assembler::toResource)
+                .collect(Collectors.toList());
+        Resources<Resource<Car>> expected = new Resources<>(resources,
+                linkTo(methodOn(CarController.class).list()).withSelfRel());
+
+            mvc.perform(
+                get(new URI("/cars"))
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"));
+//                .andExpect(jsonPath("$.condition").value("USED"))
+//                .andExpect(content().json(json.write(car).getJson()));
 
     }
 
