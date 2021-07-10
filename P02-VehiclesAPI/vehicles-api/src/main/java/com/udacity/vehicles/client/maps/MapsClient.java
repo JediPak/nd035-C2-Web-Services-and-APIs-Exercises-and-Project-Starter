@@ -47,16 +47,16 @@ public class MapsClient {
 
             return location;
         } catch (Exception e) {
-            log.warn("Map service is down");
+            log.warn("Map service is down: "+ e.toString());
             return location;
         }
     }
 
-//    @Override
-//    public String toString() {
-//        return "MapsClient{" +
-//                "client=" + client +
-//                ", mapper=" + mapper +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "MapsClient{" +
+                "client=" + client +
+                ", mapper=" + mapper +
+                '}';
+    }
 }

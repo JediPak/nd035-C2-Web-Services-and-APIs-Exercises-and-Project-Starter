@@ -17,9 +17,22 @@
 
     <properties>
         <java.version>11</java.version>
+<!--        <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>-->
+        <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
     </properties>
 
     <dependencies>
+        <!--dependencies for eureka-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+
+        <!--dependencies for jpa-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -82,8 +95,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
 <!--        <dependency>-->
+<!--            <groupId>javax.ws.rs</groupId>-->
+<!--            <artifactId>jsr311-api</artifactId>-->
+<!--            <version>1.1.1</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+
+        <!--        <dependency>-->
 <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
 <!--            <artifactId>jackson-databind</artifactId>-->
 <!--        </dependency>-->
@@ -93,13 +112,48 @@
 <!--            <version>1.1.1</version>-->
 <!--            <scope>compile</scope>-->
 <!--        </dependency>-->
+
+        <!--	Swagger Documentation dependencies	-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!--Annotation for @Produces-->
+        <!--https://codedestine.com/jax-rs-produces-restful-web-services/-->
+<!--        <dependency>-->
+<!--            <groupId>org.glassfish.jersey.media</groupId>-->
+<!--            <artifactId>jersey-media-moxy</artifactId>-->
+<!--            <version>2.26-b03</version>-->
+<!--        </dependency>-->
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${parent.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.cxf</groupId>
@@ -112,15 +166,15 @@
                         <configuration>
                             <sourceRoot>${project.build.directory}/generated-sources/cxf
                             </sourceRoot>
-                            <wsdlOptions>
-                                <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/price.wsdl</wsdl>
-                                </wsdlOption>
-                            </wsdlOptions>
+<!--                            <wsdlOptions>-->
+<!--                                <wsdlOption>-->
+<!--                                    <wsdl>${basedir}/src/main/resources/price.wsdl</wsdl>-->
+<!--                                </wsdlOption>-->
+<!--                            </wsdlOptions>-->
                         </configuration>
-                        <goals>
-                            <goal>wsdl2java</goal>
-                        </goals>
+<!--                        <goals>-->
+<!--                            <goal>wsdl2java</goal>-->
+<!--                        </goals>-->
                     </execution>
                 </executions>
             </plugin>

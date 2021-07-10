@@ -4,14 +4,20 @@ package com.udacity.vehicles.api;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import com.udacity.vehicles.domain.Condition;
+import com.udacity.vehicles.domain.Location;
 import com.udacity.vehicles.domain.car.Car;
+import com.udacity.vehicles.domain.car.Details;
+import com.udacity.vehicles.domain.manufacturer.Manufacturer;
+import com.udacity.vehicles.service.CarBadRequestException;
 import com.udacity.vehicles.service.CarService;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import javax.ws.rs.Produces;
+//import javax.ws.rs.Produces;
 
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -54,6 +60,49 @@ class CarController {
                 linkTo(methodOn(CarController.class).list()).withSelfRel());
     }
 
+
+    /**
+     * Returns an example of the car object
+     */
+    @GetMapping(value = "/example", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @GetMapping("/example")
+//    @Produces("application/json")
+    Car get() {
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        Manufacturer manufacturer = new Manufacturer(100, "Audi");
+
+        Details details = new Details();
+        details.setBody("body");
+        details.setModel("model");
+        details.setManufacturer(manufacturer);
+        details.setNumberOfDoors(3);
+        details.setFuelType("fuel type");
+        details.setEngine("engine");
+        details.setMileage(123);
+        details.setModelYear(2021);
+        details.setProductionYear(2020);
+        details.setExternalColor("blue");
+
+        Location location = new Location(20.0, 30.0);
+        location.setAddress("address");
+        location.setCity("city");
+        location.setState("state");
+        location.setZip("zip");
+
+        Car car = new Car();
+        car.setPrice("10000");
+        car.setCreatedAt(localDateTime);
+        car.setModifiedAt(localDateTime);
+        car.setCondition(Condition.NEW);
+        car.setDetails(details);
+        car.setLocation(location);
+
+        return car;
+//        return assembler.toResource(car);
+    }
+
 //    https://knowledge.udacity.com/questions/286730
 //    @ApiOperation(value = "Returns Car details associated with the id")
 //    @ApiResponses(value = {@ApiResponse(code = 200,message = "Succesfully retrieved car associated with id")})
@@ -71,9 +120,10 @@ class CarController {
      * @param id the id number of the given vehicle
      * @return all information for the requested vehicle
      */
-    @GetMapping("/{id}")
+//    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @Produce({"MediaType.APPLICATION_JSON", "MediaType.APPLICATION_XML"})
-    @Produces("application/json")
+//    @Produces("application/json")
 //    @ApiOperation(value = "Returns Car details associated with the id")
 //    @ApiResponses(value = {@ApiResponse(code = 200,message = "Succesfully retrieved car associated with id")})
 //    Resource<Car> get(@PathVariable Long id) {
@@ -83,7 +133,8 @@ class CarController {
          * TODO: Use the `assembler` on that car and return the resulting output.
          *   Update the first line as part of the above implementing.
          */
-        return assembler.toResource(new Car());
+//        return assembler.toResource(new Car());
+        return assembler.toResource(carService.findById(id));
     }
 
     /**
@@ -99,7 +150,11 @@ class CarController {
          * TODO: Use the `assembler` on that saved car and return as part of the response.
          *   Update the first line as part of the above implementing.
          */
-        Resource<Car> resource = assembler.toResource(new Car());
+//        Resource<Car> resource = assembler.toResource(new Car());
+        if(car.getId() != null){
+            throw new CarBadRequestException("Error: To create a new car, please leave the <Id> null");
+        }
+        Resource<Car> resource = assembler.toResource(carService.save(car));
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
@@ -117,7 +172,18 @@ class CarController {
          * TODO: Use the `assembler` on that updated car and return as part of the response.
          *   Update the first line as part of the above implementing.
          */
-        Resource<Car> resource = assembler.toResource(new Car());
+//        Resource<Car> resource = assembler.toResource(new Car());
+        // checking to see if car with id already exists for not
+        if(car.getId() == null){
+            throw new CarBadRequestException("Error: Please provide the id of the car you are updating");
+        }
+        if(car.getId() != id){
+            throw new CarBadRequestException("Error: <Id> endpoint path does not match with the <Id> in car request body");
+        }
+        if(!carService.exist(id)){
+            throw new CarBadRequestException("Error: Car with id="+ id +" does not exist");
+        }
+        Resource<Car> resource = assembler.toResource(carService.save(car));
         return ResponseEntity.ok(resource);
     }
 
@@ -131,6 +197,7 @@ class CarController {
         /**
          * TODO: Use the Car Service to delete the requested vehicle.
          */
+        carService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

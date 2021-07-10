@@ -49,10 +49,10 @@ public class PriceClient {
         return "(consult price)";
     }
 
-//    @Override
-//    public String toString() {
-//        return "PriceClient{" +
-//                "client=" + client +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "PriceClient{" +
+                "client=" + client +
+                '}';
+    }
 }

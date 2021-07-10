@@ -1,13 +1,14 @@
-INSERT INTO PRICE VALUES(1, 'USD', 23786.20);
-INSERT INTO PRICE VALUES(2, 'USD', 17439.70);
-INSERT INTO PRICE VALUES(3, 'USD', 10249.43);
-INSERT INTO PRICE VALUES(4, 'USD', 6616.38);
-INSERT INTO PRICE VALUES(5, 'USD', 13099.88);
-INSERT INTO PRICE VALUES(6, 'USD', 21128.60);
-INSERT INTO PRICE VALUES(7, 'USD', 22502.00);
-INSERT INTO PRICE VALUES(8, 'USD', 24764.36);
-INSERT INTO PRICE VALUES(9, 'USD', 17170.34);
-INSERT INTO PRICE VALUES(10, 'USD', 21402.63);
+INSERT INTO price (vehicle_id, currency, price) VALUES (1, 'USD', 23786.20);
+INSERT INTO price (vehicle_id, currency, price) VALUES (2, 'USD', 17439.70);
+INSERT INTO price (vehicle_id, currency, price) VALUES (3, 'USD', 10249.43);
+INSERT INTO price (vehicle_id, currency, price) VALUES (4, 'USD', 6616.38);
+INSERT INTO price (vehicle_id, currency, price) VALUES (5, 'USD', 13099.88);
+INSERT INTO price (vehicle_id, currency, price) VALUES (6, 'USD', 21128.60);
+INSERT INTO price (vehicle_id, currency, price) VALUES (7, 'USD', 22502.00);
+INSERT INTO price (vehicle_id, currency, price) VALUES (8, 'USD', 24764.36);
+INSERT INTO price (vehicle_id, currency, price) VALUES (9, 'USD', 17170.34);
+INSERT INTO price (vehicle_id, currency, price) VALUES (10, 'USD', 21402.63);
+
 --11=Price{currency='USD', price=15978.64, vehicleId=11},
 --12=Price{currency='USD', price=5061.59, vehicleId=12},
 --13=Price{currency='USD', price=8307.02, vehicleId=13},

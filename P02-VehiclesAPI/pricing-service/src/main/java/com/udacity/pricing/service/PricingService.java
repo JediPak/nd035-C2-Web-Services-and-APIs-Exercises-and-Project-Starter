@@ -6,6 +6,7 @@
 
 package com.udacity.pricing.service;
 
+import com.google.common.collect.Lists;
 import com.udacity.pricing.domain.price.Price;
 import com.udacity.pricing.domain.price.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -28,11 +30,21 @@ public class PricingService {
       @Autowired
       PriceRepository priceRepository;
 
+   /**
+    * If a valid vehicle ID, gets the price of the vehicle from the stored array.
+    * @return list of prices
+    * */
+   public List <Price> getPrices() throws PriceException {
+      List<Price> founds = Lists.newArrayList(priceRepository.findAll());
+      return founds;
+   }
+
       /**
        * If a valid vehicle ID, gets the price of the vehicle from the stored array.
        * @param vehicleId ID number of the vehicle the price is requested for.
        * @return price of the requested vehicle
-       * @throws PriceException vehicleID was not found */
+       * @throws PriceException vehicleID was not found
+       * */
       public Price getPrice(Long vehicleId) throws PriceException {
          Optional <Price> price = priceRepository.findById(vehicleId);
          if (price.isEmpty()) {

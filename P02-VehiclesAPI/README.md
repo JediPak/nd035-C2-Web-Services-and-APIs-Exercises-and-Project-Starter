@@ -14,3 +14,15 @@ should be running at once for full operation. Further instructions are available
 ## Dependencies
 
 The project requires the use of Maven and Spring Boot, along with Java v11.
+
+## Endpoints:
+### Boogle
+* http://localhost:9191/maps?lat=20.0&lon=30.0
+### Eureka
+* http://localhost:8761/ (eureka dashboard)
+### Price
+* http://localhost:8082/services/price?vehicleId=1 (REST API url example)
+* http://localhost:8082/services/price?vehicleId=3 (Microservice url example)
+
+### Boogle
+### Boogle
