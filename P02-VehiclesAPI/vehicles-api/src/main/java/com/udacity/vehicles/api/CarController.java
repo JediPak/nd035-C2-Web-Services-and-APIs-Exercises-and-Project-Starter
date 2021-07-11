@@ -73,7 +73,7 @@ class CarController {
         Resources<Resource<Car>> resourceResourcesCar = new Resources<>(resources,
                 linkTo(methodOn(CarController.class).list()).withSelfRel());
 
-        System.out.println("CONTROLLER list(): "+ resourceResourcesCar.toString());
+//        System.out.println("CONTROLLER list(): "+ resourceResourcesCar.toString());
 
         return resourceResourcesCar;
 //        return new Resources<>(resources,
@@ -155,7 +155,7 @@ class CarController {
          */
 //        return assembler.toResource(new Car());
         Resource<Car> carResource = assembler.toResource(carService.findById(id));
-        System.out.println("CONTROLLER get(): "+ carResource.toString());
+//        System.out.println("CONTROLLER get(): "+ carResource.toString());
         return carResource;//assembler.toResource(carService.findById(id));
     }
 
@@ -177,14 +177,14 @@ class CarController {
             throw new CarBadRequestException("Error: To create a new car, please leave the <Id> null");
         }
         Resource<Car> resource = assembler.toResource(carService.save(car));
-
+/*
         //added for debugging
         if(resource == null){
             System.out.println("CONTROLLER post(): resource is null");
         }
         else{
             System.out.println("CONTROLLER post(): "+ resource.toString());
-        }
+        }*/
 
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
@@ -214,6 +214,8 @@ class CarController {
         if(!carService.exist(id)){
             throw new CarBadRequestException("Error: Car with id="+ id +" does not exist");
         }
+
+//        System.out.println("Car: "+ car);
         Resource<Car> resource = assembler.toResource(carService.save(car));
         return ResponseEntity.ok(resource);
     }

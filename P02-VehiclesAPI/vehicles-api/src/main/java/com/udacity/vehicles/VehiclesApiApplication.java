@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+//import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+//import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
@@ -23,7 +23,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableEurekaClient
-public class VehiclesApiApplication implements RepositoryRestConfigurer {
+public class VehiclesApiApplication {//implements RepositoryRestConfigurer {
 
     private ManufacturerRepository manufacturerRepository;
 
@@ -31,10 +31,14 @@ public class VehiclesApiApplication implements RepositoryRestConfigurer {
         SpringApplication.run(VehiclesApiApplication.class, args);
     }
 
-    @Override
-    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config){//}, CorsRegistry cors) {
-        config.exposeIdsFor(Car.class);
-    }
+//    https://stackoverflow.com/questions/44046659/return-ids-in-json-response-from-spring-data-rest
+//    Spring Data Rest hides the ID by default,
+//    in order to have it in the JSON you have to manually configure that for your entity
+//    @Override
+//    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config){//}, CorsRegistry cors) {
+//        config.exposeIdsFor(Car.class);
+//    }
+
     /**
      * Initializes the car manufacturers available to the Vehicle API.
      * @param repository where the manufacturer information persists.

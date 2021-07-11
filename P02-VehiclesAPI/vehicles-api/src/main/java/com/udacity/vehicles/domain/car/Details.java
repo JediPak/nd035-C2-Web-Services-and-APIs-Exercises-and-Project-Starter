@@ -122,7 +122,7 @@ public class Details {
         return "Details{" +
                 "body='" + body + '\'' +
                 ", model='" + model + '\'' +
-                ", manufacturer=" + manufacturer +
+                ", manufacturer=" + manufacturer.toString() +
                 ", numberOfDoors=" + numberOfDoors +
                 ", fuelType='" + fuelType + '\'' +
                 ", engine='" + engine + '\'' +

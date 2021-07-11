@@ -38,7 +38,7 @@ public class CarService {
      * @return a list of all vehicles in the CarRepository
      */
     public List<Car> list() {
-        System.out.println("SERVICE list(): "+ (repository.findAll()).toString());
+//        System.out.println("SERVICE list(): "+ (repository.findAll()).toString());
         return repository.findAll();
     }
 
@@ -61,7 +61,7 @@ public class CarService {
             throw new CarNotFoundException("Error: car with id=" + id + " does not exist");
         }
         Car car = (Car) found.get();
-        System.out.println("SERVICE findById(): "+ ((Car) found.get()).toString());
+//        System.out.println("SERVICE findById(): "+ ((Car) found.get()).toString());
 
         /**
          * TODO: Use the Pricing Web client you create in `VehiclesApiApplication`
@@ -103,16 +103,18 @@ public class CarService {
      * @return the new/updated car is stored in the repository
      */
     public Car save(Car car) {
+//        System.out.println("SERVICE before save(): "+ car.toString());
         if (car.getId() != null) {
             return repository.findById(car.getId())
                     .map(carToBeUpdated -> {
                         carToBeUpdated.setDetails(car.getDetails());
+                        carToBeUpdated.setCondition(car.getCondition());
                         carToBeUpdated.setLocation(car.getLocation());
                         return repository.save(carToBeUpdated);
                     }).orElseThrow(CarNotFoundException::new);
         }
         Car carCreated = repository.save(car);
-        System.out.println("SERVICE save(): "+ carCreated.toString());
+//        System.out.println("SERVICE after save(): "+ carCreated.toString());
         return carCreated;//repository.save(car);
     }
 

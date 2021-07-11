@@ -22,6 +22,7 @@ The project requires the use of Maven and Spring Boot, along with Java v11.
 * http://localhost:8761/ (eureka dashboard)
 ### Price
 * http://localhost:8082/services/price?vehicleId=1 (REST API url example)
+* http://localhost:8082/services/price/all (grab all prices)
 * http://localhost:8082/services/price?vehicleId=3 (Microservice url example)
 * http://localhost:8082/h2 (price db)
 ### Vehicle
