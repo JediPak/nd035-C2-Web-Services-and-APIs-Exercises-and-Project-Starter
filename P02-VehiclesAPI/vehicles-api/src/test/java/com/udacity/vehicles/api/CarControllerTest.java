@@ -111,7 +111,7 @@ public class CarControllerTest {
 //                .andExpect(jsonPath("id", is(carId.intValue())))
 //                ..andExpect(jsonPath("location").toString().equals(jsonLocation.write(car.getLocation()).toString()));
 //                .andExpect(content().json(json.write(expected).getJson()));
-//        verify(carService, times(1)).save(car);
+        verify(carService, times(1)).save(any());
     }
 
     /**
@@ -126,10 +126,6 @@ public class CarControllerTest {
          *   below (the vehicle will be the first in the list).
          */
         Car car = getCar();
-//        List <Resource<Car>> resources = carService.list().stream().map(assembler::toResource)
-//                .collect(Collectors.toList());
-//        Resources<Resource<Car>> expected = new Resources<>(resources,
-//                linkTo(methodOn(CarController.class).list()).withSelfRel());
 
             mvc.perform(
                 get(new URI("/cars"))
@@ -162,6 +158,7 @@ public class CarControllerTest {
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
+        verify(carService, times(1)).findById(carId);
     }
 
     /**
@@ -181,6 +178,7 @@ public class CarControllerTest {
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isNoContent());
+        verify(carService, times(1)).delete(carId);
     }
 
     /**
@@ -198,6 +196,7 @@ public class CarControllerTest {
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
+        verify(carService, times(1)).save(any());
     }
 
     /**
